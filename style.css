@@ -1,0 +1,6 @@
+#msgDiv {
+    width: 500px;
+    height: 300px;
+    border: 1px solid #000;
+    overflow-y: auto;
+}

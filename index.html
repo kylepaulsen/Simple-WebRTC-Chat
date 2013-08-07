@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+    <title>WebRTC p2p Chat</title>
+    <script type="text/javascript" src="jsonp.js"></script>
+    <script type="text/javascript" src="webrtc.js"></script>
+    <link href="style.css" media="all" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div id="connectionStuff">
+    <input id="createRoomBtn" type="button" value="Create Room"><br>
+    Room ID: <input id="roomId" type="text"> <input id="joinRoomBtn" type="button" value="Join Room">
+</div>
+<div id="chatStuff" style="display: none;">
+    <div id="msgDiv"></div>
+    Message: <input type="text" id="msgBox"> <input type="button" id="sendBtn" value="Send">
+</div>
+</body>
+</html>
