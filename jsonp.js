@@ -7,13 +7,14 @@
 
 /*
 * Usage:
-* 
+*
 * JSONP.get( 'someUrl.php', {param1:'123', param2:'456'}, function(data){
 *   //do something with data, which is the JSON object you should retrieve from someUrl.php
 * });
 */
-var JSONP = (function(){
-    var counter = 0, head, window = this, config = {};
+var JSONP = (function() {
+    "use strict";
+    var counter = 0, head, config = {};
     function load(url, pfnError) {
         var script = document.createElement('script'),
             done = false;
@@ -48,7 +49,7 @@ var JSONP = (function(){
     function jsonp(url, params, callback, callbackName) {
         var query = (url||'').indexOf('?') === -1 ? '?' : '&', key;
 
-        callbackName = (callbackName||config['callbackName']||'callback');
+        callbackName = (callbackName||config.callbackName||'callback');
         var uniqueName = callbackName + "_json" + (++counter);
 
         params = params || {};
@@ -83,7 +84,7 @@ var JSONP = (function(){
                 iframe.parentNode.removeChild(iframe);
             }
             iframeFirstLoad = false;
-        }
+        };
         document.body.appendChild(iframe);
 
         var form = document.createElement('form');
@@ -92,7 +93,7 @@ var JSONP = (function(){
         form.target = iframeName;
 
         var input;
-        for ( key in params ) {
+        for (var key in params) {
             if ( params.hasOwnProperty(key) ) {
                 input = document.createElement("input");
                 input.type = "text";

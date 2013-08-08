@@ -1,5 +1,6 @@
 // start entire script closure.
 document.addEventListener('DOMContentLoaded', function() {
+"use strict";
 // Used these sites for serious help:
 // https://sites.google.com/site/muazkh/webrtc-order-the-code
 // http://wholcomb.github.io/SimpleSignaling/
@@ -38,6 +39,7 @@ var optionalRtpDataChannels = {
 };
 
 // not needed?
+/*
 var mediaConstraints = {
     optional: [],
     mandatory: {
@@ -45,6 +47,7 @@ var mediaConstraints = {
         OfferToReceiveVideo: false
     }
 };
+*/
 
 var peerCon;
 var peerConDataChannel;
@@ -65,7 +68,9 @@ function makeNewPeerConOffer(callback) {
     setChannelEvents(peerConDataChannel);
 
     peerCon.onicecandidate = function (event) {
-        if (!event || !event.candidate) return;
+        if (!event || !event.candidate) {
+            return;
+        }
         offerData.iceCandidates.push(event.candidate);
         console.log("ice, ", event.candidate);
 
@@ -77,7 +82,7 @@ function makeNewPeerConOffer(callback) {
                 JSONP.post("http://api.openkeyval.org/p2pchat-"+roomId, {data: JSON.stringify(offerData)});
                 JSONP.post("http://api.openkeyval.org/p2pchat-"+roomId+"-full", {data: "hasOffer"});
                 callback();
-            }, 1500)
+            }, 1500);
         }
     };
 
@@ -133,7 +138,9 @@ function createAnswer() {
         });
 
         peerCon.onicecandidate = function (event) {
-            if (!event || !event.candidate) return;
+            if (!event || !event.candidate) {
+                return;
+            }
             answerData.iceCandidates.push(event.candidate);
             console.log("ice, ", event.candidate);
 
@@ -163,7 +170,7 @@ listen($("#createRoomBtn"), "click", function() {
     }
     $("#connectionStuff").innerHTML = "Send this roomID to a friend: <b>"+roomId+"</b><br>Waiting for connection...";
 
-    var checkForPeer = function() {
+    function checkForPeer() {
         console.log("Checking for peer...");
         JSONP.get("http://api.openkeyval.org/p2pchat-"+roomId+"-full", {}, function(status) {
             if (status === "hasOffer") {
@@ -188,7 +195,7 @@ listen($("#joinRoomBtn"), "click", function() {
     roomId = $("#roomId").value;
     $("#connectionStuff").innerHTML = "Waiting for connection...";
 
-    var checkForAnswer = function() {
+    function checkForAnswer() {
         console.log("Checking for answer...");
         JSONP.get("http://api.openkeyval.org/p2pchat-"+roomId+"-full", {}, function(status) {
             if (status === "hasAnswer") {
@@ -260,7 +267,7 @@ function setChannelEvents(channel) {
         JSONP.post("http://api.openkeyval.org/p2pchat-"+roomId, {data: ""});
         JSONP.post("http://api.openkeyval.org/p2pchat-"+roomId+"-full", {data: ""});
         peerConDataChannel.send("<b>Your peer has disconnected.</b>");
-    }
+    };
 }
 
 // end entire script closure
